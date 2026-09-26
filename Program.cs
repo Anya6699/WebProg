@@ -38,6 +38,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = AccessDeniedPath;
 });
 
+// Чтение загружаемых изображений (аватар при регистрации, ЛР 5)
+builder.Services.AddSingleton<IImageFileReader, ImageFileReader>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

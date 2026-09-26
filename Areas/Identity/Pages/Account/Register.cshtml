@@ -8,7 +8,8 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"
+              enctype="multipart/form-data">
             <h2>Создайте новую учетную запись</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -26,6 +27,13 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <!-- Выбор файла аватара (ЛР 5) -->
+            <div class="mb-3">
+                <label asp-for="Input.Avatar" class="form-label"></label>
+                <input asp-for="Input.Avatar" type="file" class="form-control"
+                       accept="image/png,image/jpeg,image/gif,image/webp,image/bmp" />
+                <span asp-validation-for="Input.Avatar" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Зарегистрироваться</button>
         </form>

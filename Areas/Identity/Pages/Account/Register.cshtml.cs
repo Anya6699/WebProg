@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebProg.DAL.Entities;
+using WebProg.Services;
 
 namespace WebProg.Areas.Identity.Pages.Account
 {
@@ -19,15 +20,18 @@ namespace WebProg.Areas.Identity.Pages.Account
 
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IImageFileReader _imageFileReader;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IImageFileReader imageFileReader,
             ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _imageFileReader = imageFileReader;
             _logger = logger;
         }
 
@@ -54,6 +58,10 @@ namespace WebProg.Areas.Identity.Pages.Account
             [Display(Name = "Подтверждение пароля")]
             [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
             public string ConfirmPassword { get; set; } = string.Empty;
+
+            /// <summary>Файл аватара (ЛР 5, п. 5.2.2). Необязательный.</summary>
+            [Display(Name = "Аватар")]
+            public IFormFile? Avatar { get; set; }
         }
 
         public void OnGet(string? returnUrl = null)
@@ -71,6 +79,11 @@ namespace WebProg.Areas.Identity.Pages.Account
             }
 
             var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+            if (!await TryAttachAvatarAsync(user))
+            {
+                return Page();
+            }
+
             var result = await _userManager.CreateAsync(user, Input.Password);
 
             if (!result.Succeeded)
@@ -85,6 +98,29 @@ namespace WebProg.Areas.Identity.Pages.Account
             _logger.LogInformation("Создан новый пользователь");
             await _signInManager.SignInAsync(user, isPersistent: false);
             return LocalRedirect(returnUrl);
+        }
+
+        /// <summary>
+        /// Сохраняет выбранный файл аватара в свойствах пользователя.
+        /// Возвращает false, если файл не прошел проверку.
+        /// </summary>
+        private async Task<bool> TryAttachAvatarAsync(ApplicationUser user)
+        {
+            if (Input.Avatar == null)
+            {
+                return true;
+            }
+
+            var image = await _imageFileReader.ReadAsync(Input.Avatar, HttpContext.RequestAborted);
+            if (!image.Succeeded)
+            {
+                ModelState.AddModelError($"{nameof(Input)}.{nameof(InputModel.Avatar)}", image.Error!);
+                return false;
+            }
+
+            user.AvatarImage = image.Content;
+            user.AvatarMimeType = image.MimeType;
+            return true;
         }
     }
 }
