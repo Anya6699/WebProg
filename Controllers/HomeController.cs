@@ -21,7 +21,7 @@ namespace WebProg.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Text"] = "Лабораторная работа 3";
+            ViewData["Text"] = "Лабораторная работа 4";
             ViewData["Lst"] = new SelectList(
                 _listDemo,
                 nameof(ListDemo.ListItemValue),

@@ -6,4 +6,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <!-- Проект WebProg.DAL лежит во вложенной папке: исключаем его файлы из основного проекта -->
+  <ItemGroup>
+    <Compile Remove="WebProg.DAL\**" />
+    <Content Remove="WebProg.DAL\**" />
+    <EmbeddedResource Remove="WebProg.DAL\**" />
+    <None Remove="WebProg.DAL\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Нужен для команд Add-Migration / Update-Database в консоли диспетчера пакетов -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="WebProg.DAL\WebProg.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

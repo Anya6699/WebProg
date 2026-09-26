@@ -1,0 +1,9 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Администрирование";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Эта страница доступна только пользователям с ролью «admin».</p>
+<p>Вы вошли как <strong>@User.Identity?.Name</strong>.</p>

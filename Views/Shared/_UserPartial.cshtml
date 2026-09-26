@@ -1,17 +1,40 @@
-@await Component.InvokeAsync("Cart")
-<div class="dropdown ms-4 nav-color">
-    <div class="dropdown-toggle" id="dropdownMenuButton" role="button"
-         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <img src="~/images/avatar.png" width="30" alt="User" class="rounded" />
-    </div>
-    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-item-text">
-            <img src="~/images/avatar.png" width="50" alt="User" class="rounded" />
-            <br />
-            user@mail.ru
+@using Microsoft.AspNetCore.Identity
+@using WebProg.DAL.Entities
+@inject SignInManager<ApplicationUser> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    @await Component.InvokeAsync("Cart")
+    <div class="dropdown ms-4 nav-color">
+        <div class="dropdown-toggle" id="dropdownMenuButton" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="~/images/avatar.png" width="30" alt="User" class="rounded" />
         </div>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="UserProducts">Мои товары</a>
-        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Log off</a>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-item-text">
+                <img src="~/images/avatar.png" width="50" alt="User" class="rounded" />
+                <br />
+                @User.Identity?.Name
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="UserProducts">Мои товары</a>
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnurl="@ViewContext.HttpContext.Request.Path"
+                  method="post">
+                <input type="submit" value="Log off" class="dropdown-item" />
+            </form>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <ul class="nav navbar-nav ms-auto">
+        <li>
+            <a class="nav-item nav-link" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+        </li>
+        <li>
+            <a class="nav-item nav-link" asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
+        </li>
+    </ul>
+}
