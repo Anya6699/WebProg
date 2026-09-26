@@ -16,32 +16,12 @@
                 <!-- меню сайта -->
                 <a class="navbar-brand badge fs-5" asp-area="" asp-controller="Home" asp-action="Index">58157191</a>
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Lab 2</a>
-                    <a class="nav-item nav-link" asp-area="" asp-controller="Product" asp-action="Index">Каталог</a>
-                    <a class="nav-item nav-link" asp-area="Admin" asp-page="/Index">Администрирование</a>
+                    @await Component.InvokeAsync("Menu")
                 </div>
                 <!-- меню сайта - конец -->
 
                 <!-- Информация пользователя -->
-                <a asp-area="" asp-controller="Cart" asp-action="Index" class="navbar-text ms-auto text-decoration-none">
-                    00,0 руб <i class="fas fa-shopping-cart nav-color"></i> (0)
-                </a>
-                <div class="dropdown ms-4 nav-color">
-                    <div class="dropdown-toggle" id="dropdownMenuButton" role="button"
-                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="~/images/avatar.png" width="30" alt="User" class="rounded" />
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <div class="dropdown-item-text">
-                            <img src="~/images/avatar.png" width="50" alt="User" class="rounded" />
-                            <br />
-                            user@mail.ru
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="UserProducts">Мои товары</a>
-                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Log off</a>
-                    </div>
-                </div>
+                <partial name="_UserPartial" />
                 <!-- Информация пользователя - конец -->
             </nav>
             <!-- Панель навигации - конец -->
