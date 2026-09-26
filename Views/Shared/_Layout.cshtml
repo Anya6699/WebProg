@@ -1,46 +1,75 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebProg</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebProg.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebProg</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <div class="container">
+            <!-- Панель навигации -->
+            <nav class="navbar navbar-expand-md navbar-dark">
+                <!-- меню сайта -->
+                <a class="navbar-brand badge fs-5" asp-area="" asp-controller="Home" asp-action="Index">58157191</a>
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Lab 2</a>
+                    <a class="nav-item nav-link" asp-area="" asp-controller="Product" asp-action="Index">Каталог</a>
+                    <a class="nav-item nav-link" asp-area="Admin" asp-page="/Index">Администрирование</a>
+                </div>
+                <!-- меню сайта - конец -->
+
+                <!-- Информация пользователя -->
+                <a asp-area="" asp-controller="Cart" asp-action="Index" class="navbar-text ms-auto text-decoration-none">
+                    00,0 руб <i class="fas fa-shopping-cart nav-color"></i> (0)
+                </a>
+                <div class="dropdown ms-4 nav-color">
+                    <div class="dropdown-toggle" id="dropdownMenuButton" role="button"
+                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="~/images/avatar.png" width="30" alt="User" class="rounded" />
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-item-text">
+                            <img src="~/images/avatar.png" width="50" alt="User" class="rounded" />
+                            <br />
+                            user@mail.ru
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="UserProducts">Мои товары</a>
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Log off</a>
+                    </div>
+                </div>
+                <!-- Информация пользователя - конец -->
+            </nav>
+            <!-- Панель навигации - конец -->
+        </div><!-- container - конец -->
+    </header><!-- header - конец -->
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="fixed-bottom">
+        <div class="container">
+            <div class="navbar navbar-dark navbar-expand-md">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-item nav-link" href="http://www.facebook.com">
+                        <i class="fab fa-facebook-f fa-2x"></i>
+                    </a>
+                    <a class="nav-item nav-link" href="http://www.vk.com">
+                        <i class="fab fa-vk fa-2x"></i>
+                    </a>
+                    <a class="nav-item nav-link" href="http://www.twitter.com">
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WebProg - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
